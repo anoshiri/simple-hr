@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AnnouncementResource\Pages;
 use App\Filament\Resources\AnnouncementResource\RelationManagers;
 use App\Models\Announcement;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,13 +22,7 @@ class AnnouncementResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('to')->required(),
-
-                Forms\Components\TextInput::make('subject')->required(),
-
-                Forms\Components\TextInput::make('message')->required()
-            ]);
+            ->schema(Announcement::getForm());
     }
 
     public static function table(Table $table): Table

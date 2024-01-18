@@ -24,30 +24,7 @@ class EmploymentHistoryResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'first_name')
-                    ->required(),
-
-                Forms\Components\Select::make('employment_type')
-                    ->required()
-                    ->options(EmploymentTypeEnum::values()),
-
-                Forms\Components\TextInput::make('job_title')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('work_location')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\DatePicker::make('hire_date')
-                    ->required(),
-
-                Forms\Components\DatePicker::make('end_date')
-                    ->required(),
-            ]);
+            ->schema(EmploymentHistory::getForm());
     }
 
     public static function table(Table $table): Table

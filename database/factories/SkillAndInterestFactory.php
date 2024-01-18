@@ -20,7 +20,7 @@ class SkillAndInterestFactory extends Factory
     {
         return [
             'skill_name' => $this->faker->word,
-            'proficiency' => $this->faker->randomElement(ProficiencyEnum::valuePairs()),
+            'proficiency' => $this->faker->randomElement(ProficiencyEnum::class),
             'created_at' => now(),
             'updated_at' => now(),
         ];

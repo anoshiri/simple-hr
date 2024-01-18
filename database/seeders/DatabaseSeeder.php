@@ -46,7 +46,7 @@ class DatabaseSeeder extends Seeder
         $employees = Employee::factory(10)
             ->hasContacts(1)
             ->hasAwards(rand(0, 3))
-            ->hasDesignations(rand(1, 5))
+            ->hasPositionsHeld(1)
             ->hasEmploymentHistories(2)
             ->hasBankingInformation(1)
             ->hasEmergencyContacts(2)

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
-use App\Models\Designation;
 use App\Models\User;
+use App\Models\PositionHeld;
+use Illuminate\Auth\Access\Response;
 
-class DesignationPolicy
+class PositionHeldPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,7 +19,7 @@ class DesignationPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Designation $designation): bool
+    public function view(User $user, PositionHeld $position): bool
     {
         return $user->checkPermissionTo('view Designation');
     }
@@ -35,7 +35,7 @@ class DesignationPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Designation $designation): bool
+    public function update(User $user, PositionHeld $position): bool
     {
         return $user->checkPermissionTo('update Designation');
     }
@@ -43,7 +43,7 @@ class DesignationPolicy
     /**
      * Determine whether the user can delete the model.
      */
-    public function delete(User $user, Designation $designation): bool
+    public function delete(User $user, PositionHeld $position): bool
     {
         return $user->checkPermissionTo('delete Designation');
     }
@@ -51,7 +51,7 @@ class DesignationPolicy
     /**
      * Determine whether the user can restore the model.
      */
-    public function restore(User $user, Designation $designation): bool
+    public function restore(User $user, PositionHeld $position): bool
     {
         return $user->checkPermissionTo('restore Designation');
     }
@@ -59,7 +59,7 @@ class DesignationPolicy
     /**
      * Determine whether the user can permanently delete the model.
      */
-    public function forceDelete(User $user, Designation $designation): bool
+    public function forceDelete(User $user, PositionHeld $position): bool
     {
         return $user->checkPermissionTo('force-delete Designation');
     }

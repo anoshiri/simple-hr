@@ -2,28 +2,34 @@
 
 namespace App\Filament\Resources\EmployeeResource\RelationManagers;
 
-use Filament\Tables;
-use App\Models\Award;
+use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Tables\Table;
 use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Tables;
+use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class AwardsRelationManager extends RelationManager
+class PersonalInformationRelationManager extends RelationManager
 {
-    protected static string $relationship = 'awards';
+    protected static string $relationship = 'personalInformation';
 
     public function form(Form $form): Form
     {
         return $form
-            ->schema(Award::getForm());
+            ->schema([
+                Forms\Components\TextInput::make('marital_status')
+                    ->required()
+                    ->maxLength(255),
+            ]);
     }
 
     public function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('title')
+            ->recordTitleAttribute('marital_status')
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('marital_status'),
             ])
             ->filters([
                 //

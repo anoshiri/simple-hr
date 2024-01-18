@@ -2,17 +2,15 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use App\Models\Employee;
 use Filament\Forms\Form;
-use App\Enums\GenderEnum;
 use Filament\Tables\Table;
 use Filament\Resources\Resource;
 use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\EmployeeResource\Pages;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\EmployeeResource\RelationManagers;
 
 class EmployeeResource extends Resource
@@ -23,22 +21,11 @@ class EmployeeResource extends Resource
     protected static ?string $navigationGroup = 'HR';
     protected static ?int $navigationSort = 1;
 
+
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('first_name')->required(),
-
-                Forms\Components\TextInput::make('last_name')->required(),
-
-                Forms\Components\Select::make('gender')
-                    ->options(GenderEnum::valuePairs())->required(),
-
-                Forms\Components\DatePicker::make('date_of_birth')->required(),
-
-                Forms\Components\TextInput::make('designation')
-                    ->label('Designation/Job Position')
-            ]);
+            ->schema(Employee::getForm());
     }
 
 
@@ -84,6 +71,7 @@ class EmployeeResource extends Resource
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),
+                Tables\Actions\ViewAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -98,6 +86,15 @@ class EmployeeResource extends Resource
     {
         return [
             RelationManagers\AwardsRelationManager::class,
+            RelationManagers\BankingInformationRelationManager::class,
+            RelationManagers\ContactsRelationManager::class,
+            RelationManagers\EmploymentHistoriesRelationManager::class,
+            RelationManagers\EducationalInformationRelationManager::class,
+            RelationManagers\LanguageSpokensRelationManager::class,
+            RelationManagers\PerformanceRecordsRelationManager::class,
+            RelationManagers\PersonalInformationRelationManager::class,
+            RelationManagers\SkillAndInterestsRelationManager::class,
+            RelationManagers\TrainingsRelationManager::class,
         ];
     }
 

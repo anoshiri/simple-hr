@@ -19,28 +19,13 @@ class CertificateLicenseResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
     protected static ?string $navigationGroup = 'Record';
+    protected static ?string $navigationLabel = 'Certificates/Licenses';
+
 
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'first_name')
-                    ->required(),
-
-                Forms\Components\TextInput::make('certification_name')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('issuing_organisation_name')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\DatePicker::make('issuance_date')
-                    ->required(),
-
-                Forms\Components\DatePicker::make('expiry_date'),
-            ]);
+            ->schema(CertificateLicense::getForm());
     }
 
     public static function table(Table $table): Table

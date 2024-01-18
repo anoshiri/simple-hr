@@ -24,15 +24,7 @@ class DepartmentResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('title')->required(),
-
-                Forms\Components\TextInput::make('note'),
-
-                Forms\Components\Select::make('department_id')
-                    ->options(Department::all()->pluck('title', 'id'))
-                    ->label('Parent Department'),
-            ]);
+            ->schema(Department::getForm());
     }
 
     public static function table(Table $table): Table

@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Filament\Forms;
+use App\Enums\GenderEnum;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Casts\Attribute;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Employee extends Model
 {
@@ -72,9 +74,9 @@ class Employee extends Model
 
 
 
-    public function designations() : HasMany
+    public function PositionsHeld() : HasMany
     {
-        return $this->hasMany(Designation::class);
+        return $this->hasMany(PositionHeld::class);
     }
 
 
@@ -161,5 +163,45 @@ class Employee extends Model
     public function photographs()
     {
         return $this->hasMany(Photograph::class);
+    }
+
+
+    public static function getForm(): array
+    {
+        return [
+            Forms\Components\Section::make()
+                ->schema([
+                    Forms\Components\TextInput::make('first_name')->required(),
+
+                    Forms\Components\TextInput::make('last_name')->required(),
+
+                    Forms\Components\Select::make('gender')
+                        ->enum(GenderEnum::class)
+                        ->options(GenderEnum::class)
+                        ->required(),
+
+                    Forms\Components\DatePicker::make('date_of_birth')->required(),
+
+                    Forms\Components\TextInput::make('designation')
+                        ->label('Designation/Job Position')
+                ]),
+
+                // fill form with factory data during testing
+                Forms\Components\Actions::make([
+                    Forms\Components\Actions\Action::make('Fill with factory data')
+                        ->icon('heroicon-m-star')
+                        ->visible(function($operation) {
+                            if ($operation == 'create' && app()->environment() == 'local' ) {
+                                return true;
+                            }
+
+                            return false;
+                        })
+                        ->action(function ($livewire) {
+                            $data = Employee::factory()->make()->toArray();
+                            $livewire->form->fill($data);
+                        }),
+                ])
+        ];
     }
 }

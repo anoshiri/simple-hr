@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\AwardResource\Pages;
 use App\Filament\Resources\AwardResource\RelationManagers;
 use App\Models\Award;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,25 +22,7 @@ class AwardResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'first_name')
-                    ->required(),
-
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\Textarea::make('description')
-                    ->maxLength(65535)
-                    ->columnSpanFull(),
-
-                Forms\Components\DatePicker::make('award_date')
-                    ->required(),
-
-                Forms\Components\TextInput::make('awarded_by')
-                    ->maxLength(255),
-            ]);
+            ->schema(Award::getForm());
     }
 
 
