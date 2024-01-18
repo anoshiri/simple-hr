@@ -2,17 +2,12 @@
 
 namespace App\Filament\Resources;
 
-use Filament\Forms;
 use Filament\Tables;
 use Filament\Forms\Form;
 use Filament\Tables\Table;
-use App\Enums\ProficiencyEnum;
 use App\Models\LanguageSpoken;
 use Filament\Resources\Resource;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\LanguageSpokenResource\Pages;
-use App\Filament\Resources\LanguageSpokenResource\RelationManagers;
 
 class LanguageSpokenResource extends Resource
 {
@@ -24,18 +19,7 @@ class LanguageSpokenResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'fullName')
-                    ->required(),
-
-                Forms\Components\TextInput::make('language_name')
-                    ->required(),
-
-                Forms\Components\Select::make('proficiency_level')
-                    ->options(ProficiencyEnum::valuePairs())
-                    ->required(),
-            ]);
+            ->schema(LanguageSpoken::getForm());
     }
 
     public static function table(Table $table): Table

@@ -18,7 +18,7 @@ class PersonalInformationFactory extends Factory
     public function definition(): array
     {
         return [
-            'marital_status' => $this->faker->randomElement(MaritalStatusEnum::values()),
+            'marital_status' => $this->faker->randomElement(MaritalStatusEnum::class),
             'spouse_name' => $this->faker->optional(0.5)->name, // 50% chance of having a spouse name
             'dependents' => $this->faker->numberBetween(0, 5), // Random number of dependents
             'citizenship' => $this->faker->country,

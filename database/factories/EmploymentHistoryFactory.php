@@ -20,7 +20,7 @@ class EmploymentHistoryFactory extends Factory
         return [
             'job_title' => $this->faker->jobTitle,
             'department' => $this->faker->word,
-            'employment_status' => $this->faker->randomElement(EmploymentTypeEnum::values()),
+            'employment_status' => $this->faker->randomElement(EmploymentTypeEnum::class),
             'hire_date' => $this->faker->date,
             'end_date' => $this->faker->optional(0.2, null)->date, // 20% chance of having an end date
             'work_location' => $this->faker->city,

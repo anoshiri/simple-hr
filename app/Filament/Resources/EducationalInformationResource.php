@@ -23,28 +23,7 @@ class EducationalInformationResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'first_name')
-                    ->required(),
-
-                Forms\Components\TextInput::make('degree')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('major')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('institution')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\DatePicker::make('admission_date')
-                    ->required(),
-
-                Forms\Components\DatePicker::make('graduation_date'),
-            ]);
+            ->schema(EducationalInformation::getForm());
     }
 
     public static function table(Table $table): Table

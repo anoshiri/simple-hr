@@ -19,7 +19,7 @@ class LanguageSpokenFactory extends Factory
     {
         return [
             'language_name' => $this->faker->languageCode,
-            'proficiency_level' => $this->faker->randomElement(ProficiencyEnum::valuePairs()),
+            'proficiency_level' => $this->faker->randomElement(ProficiencyEnum::class),
             'created_at' => now(),
             'updated_at' => now(),
         ];

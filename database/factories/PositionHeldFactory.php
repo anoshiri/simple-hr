@@ -2,12 +2,13 @@
 
 namespace Database\Factories;
 
+use App\Models\Department;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Designation>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PositionHeld>
  */
-class DesignationFactory extends Factory
+class PositionHeldFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,6 +19,7 @@ class DesignationFactory extends Factory
     {
         return [
             'title' => $this->faker->word,
+            'department_id' => Department::inRandomOrder()->first()->id,
             'start_date' => $this->faker->date,
             'end_date' => $this->faker->date,
         ];

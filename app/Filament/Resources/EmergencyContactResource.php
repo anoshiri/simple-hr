@@ -23,28 +23,7 @@ class EmergencyContactResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'first_name')
-                    ->required(),
-
-                Forms\Components\TextInput::make('contact_name')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('relationship')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('contact_phone')
-                    ->tel()
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('contact_email')
-                    ->email()
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(EmergencyContact::getForm());
     }
 
     public static function table(Table $table): Table

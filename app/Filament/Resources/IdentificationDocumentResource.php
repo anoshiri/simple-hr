@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Symfony\Component\Mime\Header\IdentificationHeader;
 
 class IdentificationDocumentResource extends Resource
 {
@@ -23,23 +24,7 @@ class IdentificationDocumentResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'fullName')
-                    ->required(),
-
-                Forms\Components\TextInput::make('document_type')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('document_number')
-                    ->required()
-                    ->maxLength(255),
-
-                Forms\Components\TextInput::make('document_path')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(IdentificationDocument::getForm());
     }
 
     public static function table(Table $table): Table

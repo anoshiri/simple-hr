@@ -5,7 +5,6 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\BankingInformationResource\Pages;
 use App\Filament\Resources\BankingInformationResource\RelationManagers;
 use App\Models\BankingInformation;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,26 +22,7 @@ class BankingInformationResource extends Resource
     public static function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\Select::make('employee_id')
-                    ->relationship('employee', 'first_name')
-                    ->required(),
-                Forms\Components\TextInput::make('account_name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('bank_name')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('routing_number')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('account_number')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('account_type')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(BankingInformation::getForm());
     }
 
     public static function table(Table $table): Table

@@ -22,7 +22,7 @@ class EmployeeFactory extends Factory
             'employee_code' => $this->faker->ean8,
             'first_name' => $this->faker->firstName,
             'last_name' => $this->faker->lastName,
-            'gender' => $this->faker->randomElement(GenderEnum::values()), // Adjust based on your enum values
+            'gender' => $this->faker->randomElement(GenderEnum::class), // Adjust based on your enum values
             'date_of_birth' => $this->faker->date,
             'status' => EmployeeStatus::inRandomOrder()->first()->id,
             'created_at' => now(),
