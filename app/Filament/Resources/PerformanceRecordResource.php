@@ -1,28 +1,34 @@
 <?php
 
-namespace App\Filament\Resources\EmployeeResource\RelationManagers;
+namespace App\Filament\Resources;
 
+use App\Filament\Resources\PerformanceRecordResource\Pages;
+use App\Filament\Resources\PerformanceRecordResource\RelationManagers;
 use App\Models\PerformanceRecord;
 use Filament\Forms;
 use Filament\Forms\Form;
-use Filament\Resources\RelationManagers\RelationManager;
+use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PerformanceRecordsRelationManager extends RelationManager
+class PerformanceRecordResource extends Resource
 {
-    protected static string $relationship = 'performanceRecords';
+    protected static ?string $model = PerformanceRecord::class;
 
-    public function form(Form $form): Form
+    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationGroup = 'Record';
+
+    public static function form(Form $form): Form
     {
         return $form
             ->schema(PerformanceRecord::getForm());
     }
 
-    public function table(Table $table): Table
+    public static function table(Table $table): Table
     {
         return $table
-            ->recordTitleAttribute('appraisal_date')
             ->columns([
                 Tables\Columns\TextColumn::make('employee.fullName')
                     ->sortable(['first_name', 'last_name'])
@@ -47,17 +53,29 @@ class PerformanceRecordsRelationManager extends RelationManager
             ->filters([
                 //
             ])
-            ->headerActions([
-                Tables\Actions\CreateAction::make(),
-            ])
             ->actions([
                 Tables\Actions\EditAction::make(),
-                Tables\Actions\DeleteAction::make(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make(),
                 ]),
             ]);
+    }
+
+    public static function getRelations(): array
+    {
+        return [
+            //
+        ];
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => Pages\ListPerformanceRecords::route('/'),
+            'create' => Pages\CreatePerformanceRecord::route('/create'),
+            'edit' => Pages\EditPerformanceRecord::route('/{record}/edit'),
+        ];
     }
 }

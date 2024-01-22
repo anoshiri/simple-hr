@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EmployeeResource\RelationManagers;
 
+use App\Models\SkillAndInterest;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -17,11 +18,7 @@ class SkillAndInterestsRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('skill_name')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(SkillAndInterest::getForm());
     }
 
     public function table(Table $table): Table
@@ -29,7 +26,14 @@ class SkillAndInterestsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('skill_name')
             ->columns([
-                Tables\Columns\TextColumn::make('skill_name'),
+                Tables\Columns\TextColumn::make('skill_name')
+                    ->label('Language')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('proficiency_level')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

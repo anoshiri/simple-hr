@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Filament\Forms;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -10,11 +11,6 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Award extends Model
 {
     use HasFactory;
-
-
-    protected $fillable = [
-        'title', 'description', 'award_date', 'awarded_by',
-    ];
 
     protected $casts = [
         'award_date' => 'date'
@@ -35,7 +31,15 @@ class Award extends Model
             Forms\Components\Section::make()
                 ->schema([
                     Forms\Components\Select::make('employee_id')
-                        ->relationship('employee', 'first_name')
+                        ->relationship(
+                            'employee',
+                            "full_name"
+                        )
+                        ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                        ->searchable(['first_name', 'last_name'])
+                        ->preload()
+                        ->createOptionForm(Employee::getForm())
+                        ->editOptionForm(Employee::getForm())
                         ->required(),
 
                     Forms\Components\TextInput::make('title')

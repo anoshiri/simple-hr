@@ -10,19 +10,15 @@ use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Employee extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'first_name', 'last_name', 'gender', 'date_of_birth', 'designation'
-    ];
-
     protected $casts = [
         'date_of_birth' => 'date'
     ];
-
 
     /**
      * Get the employee full name.
@@ -33,6 +29,7 @@ class Employee extends Model
             get: fn (mixed $value, array $attributes) => $attributes['first_name'].' '.$attributes['last_name'],
         );
     }
+
 
     /**
      * Get the employee birthday.
@@ -48,9 +45,22 @@ class Employee extends Model
     /**
      * RELATIONSHIPS
      */
-    public function status() : BelongsTo
+
+    public function user(): HasOne
     {
-        return $this->belongsTo(EmployeeStatus::class);
+        if ($this->has(User::class)) {
+            return $this->hasOne(User::class, 'employee_id');
+        }
+
+        return '';
+    }
+
+
+
+
+    public function employeeStatus() : BelongsTo
+    {
+        return $this->belongsTo(EmployeeStatus::class, 'status', 'id');
     }
 
 
@@ -74,7 +84,7 @@ class Employee extends Model
 
 
 
-    public function PositionsHeld() : HasMany
+    public function positionsHeld() : HasMany
     {
         return $this->hasMany(PositionHeld::class);
     }
@@ -98,13 +108,6 @@ class Employee extends Model
     public function emergencyContacts()
     {
         return $this->hasMany(EmergencyContact::class);
-    }
-
-
-
-    public function personalInformation()
-    {
-        return $this->hasMany(PersonalInformation::class);
     }
 
 
@@ -160,9 +163,23 @@ class Employee extends Model
 
 
 
-    public function photographs()
+    public function photographs(): HasMany
     {
         return $this->hasMany(Photograph::class);
+    }
+
+
+
+    public function employmentStatus(): BelongsTo
+    {
+        return $this->belongsTo(EmploymentStatus::class);
+    }
+
+
+
+    public function payGrade(): BelongsTo
+    {
+        return $this->belongsTo(PayGrade::class);
     }
 
 
@@ -170,10 +187,20 @@ class Employee extends Model
     {
         return [
             Forms\Components\Section::make()
+                ->columns(3)
                 ->schema([
+                    Forms\Components\FileUpload::make('photo')
+                        ->avatar()
+                        ->nullable(),
+
+
                     Forms\Components\TextInput::make('first_name')->required(),
 
+                    Forms\Components\TextInput::make('middle_name'),
+
                     Forms\Components\TextInput::make('last_name')->required(),
+
+                    Forms\Components\TextInput::make('employee_code'),
 
                     Forms\Components\Select::make('gender')
                         ->enum(GenderEnum::class)

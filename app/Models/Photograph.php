@@ -13,11 +13,6 @@ class Photograph extends Model
     use HasFactory;
 
 
-    protected $fillable = [
-        'employee_id', 'title', 'path'
-    ];
-
-
     protected function image(): Attribute
     {
         return Attribute::make(

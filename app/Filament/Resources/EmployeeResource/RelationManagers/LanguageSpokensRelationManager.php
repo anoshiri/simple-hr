@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\EmployeeResource\RelationManagers;
 
+use App\Enums\ProficiencyEnum;
+use App\Models\LanguageSpoken;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -17,11 +19,7 @@ class LanguageSpokensRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('language_name')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(LanguageSpoken::getForm());
     }
 
     public function table(Table $table): Table
@@ -29,7 +27,15 @@ class LanguageSpokensRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('language_name')
             ->columns([
-                Tables\Columns\TextColumn::make('language_name'),
+
+                Tables\Columns\TextColumn::make('language_name')
+                    ->label('Language')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('proficiency_level')
+                    ->sortable()
+                    ->searchable(),
             ])
             ->filters([
                 //

@@ -41,8 +41,12 @@ class EmployeeResource extends Resource
                 }
             ]))
             ->columns([
-                Tables\Columns\TextColumn::make('photographs.image')
-                    ->label('Photo'),
+                Tables\Columns\ImageColumn::make('photographs.image')
+                    ->label('Photo')
+                    ->rounded()
+                    ->defaultImageurl(function(Employee $record) {
+                        return 'https://ui-avatars.com/api/?name='. $record->first_name;
+                    }),
 
                 Tables\Columns\TextColumn::make('fullName')
                     ->sortable(['last_name', 'first_name'])
@@ -65,6 +69,7 @@ class EmployeeResource extends Resource
                 Tables\Columns\TextColumn::make('birthday')
                     ->sortable()
                     ->searchable(),
+
             ])
             ->filters([
                 Tables\Filters\TrashedFilter::make(),
@@ -92,7 +97,6 @@ class EmployeeResource extends Resource
             RelationManagers\EducationalInformationRelationManager::class,
             RelationManagers\LanguageSpokensRelationManager::class,
             RelationManagers\PerformanceRecordsRelationManager::class,
-            RelationManagers\PersonalInformationRelationManager::class,
             RelationManagers\SkillAndInterestsRelationManager::class,
             RelationManagers\TrainingsRelationManager::class,
         ];

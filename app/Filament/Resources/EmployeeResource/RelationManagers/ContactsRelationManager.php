@@ -29,7 +29,22 @@ class ContactsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('address')
             ->columns([
-                Tables\Columns\TextColumn::make('address'),
+                Tables\Columns\TextColumn::make('fullAddress')
+                    ->wrap()
+                    ->html(),
+
+                Tables\Columns\TextColumn::make('phoneNumbers')
+                    ->wrap()
+                    ->html(),
+
+                Tables\Columns\TextColumn::make('emailAddresses')
+                    ->wrap()
+                    ->html(),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

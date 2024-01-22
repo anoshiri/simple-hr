@@ -1,6 +1,15 @@
 <?php
 
 return [
+    'employment_statuses' => [
+        ['status' => 'Freelance'],
+        ['status' => 'Full-Time Contract'],
+        ['status' => 'Full-Time Permanent'],
+        ['status' => 'Full-Time Probation'],
+        ['status' => 'Part-Time Contract'],
+        ['status' => 'Part-Time Internship'],
+    ],
+
     'vendor_settings' => [
         'pixel' => '',
         'crm' => '',
