@@ -23,7 +23,20 @@ class AwardsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('title')
             ->columns([
-                Tables\Columns\TextColumn::make('title'),
+                Tables\Columns\TextColumn::make('title')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('award_date')
+                    ->date()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('awarded_by')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('created_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

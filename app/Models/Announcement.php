@@ -11,10 +11,6 @@ class Announcement extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'to', 'subject', 'message',
-    ];
-
     public function sender() : BelongsTo
     {
         return $this->belongsTo(Employee::class);

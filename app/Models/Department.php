@@ -14,11 +14,6 @@ class Department extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = [
-        'title', 'note', 'department_id'
-    ];
-
-
     public function parent(): ?BelongsTo
     {
         return $this->belongsTo(Department::class, 'department_id');

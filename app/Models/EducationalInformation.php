@@ -11,10 +11,12 @@ class EducationalInformation extends Model
 {
     use HasFactory;
 
+
     public function employee() : BelongsTo
     {
         return $this->belongsTo(Employee::class);
     }
+
 
     public static function getForm(): array
     {
@@ -22,7 +24,15 @@ class EducationalInformation extends Model
             Forms\Components\Section::make()
                 ->schema([
                     Forms\Components\Select::make('employee_id')
-                        ->relationship('employee', 'first_name')
+                        ->relationship(
+                            'employee',
+                            "full_name"
+                        )
+                        ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                        ->searchable(['first_name', 'last_name'])
+                        ->preload()
+                        ->createOptionForm(Employee::getForm())
+                        ->editOptionForm(Employee::getForm())
                         ->required(),
 
                     Forms\Components\TextInput::make('degree')

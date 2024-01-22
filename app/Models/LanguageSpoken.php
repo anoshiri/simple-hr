@@ -13,11 +13,6 @@ class LanguageSpoken extends Model
     use HasFactory;
 
 
-    protected $fillable = [
-        'employee_id', 'language_name', 'proficiency_level'
-    ];
-
-
     protected $casts = [
         'proficiency_level' => ProficiencyEnum::class
     ];
@@ -35,7 +30,15 @@ class LanguageSpoken extends Model
             Forms\Components\Section::make()
                 ->schema([
                     Forms\Components\Select::make('employee_id')
-                        ->relationship('employee', 'first_name')
+                        ->relationship(
+                            'employee',
+                            "full_name"
+                        )
+                        ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                        ->searchable(['first_name', 'last_name'])
+                        ->preload()
+                        ->createOptionForm(Employee::getForm())
+                        ->editOptionForm(Employee::getForm())
                         ->required(),
 
                     Forms\Components\TextInput::make('language_name')

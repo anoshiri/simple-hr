@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EmployeeResource\RelationManagers;
 
+use App\Models\CertificateLicense;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -17,11 +18,7 @@ class CertificateLicensesRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('certificate_name')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(CertificateLicense::getForm());
     }
 
     public function table(Table $table): Table
@@ -29,7 +26,24 @@ class CertificateLicensesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('certificate_name')
             ->columns([
-                Tables\Columns\TextColumn::make('certificate_name'),
+                Tables\Columns\TextColumn::make('certification_name')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('issuing_organisation_name')
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('issuance_date')
+                    ->date()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('expiry_date')
+                    ->date()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('updated_at')
+                    ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 //

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\EmployeeResource\RelationManagers;
 
+use App\Models\EmploymentHistory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
@@ -17,11 +18,7 @@ class EmploymentHistoriesRelationManager extends RelationManager
     public function form(Form $form): Form
     {
         return $form
-            ->schema([
-                Forms\Components\TextInput::make('job_title')
-                    ->required()
-                    ->maxLength(255),
-            ]);
+            ->schema(EmploymentHistory::getForm());
     }
 
     public function table(Table $table): Table
@@ -29,7 +26,25 @@ class EmploymentHistoriesRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('job_title')
             ->columns([
-                Tables\Columns\TextColumn::make('job_title'),
+                Tables\Columns\TextColumn::make('job_title')
+                    ->sortable()
+                    ->searchable(),
+
+                Tables\Columns\TextColumn::make('employment_type')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('work_location')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('hire_date')
+                    ->searchable()
+                    ->sortable(),
+
+                Tables\Columns\TextColumn::make('end_date')
+                    ->searchable()
+                    ->sortable(),
             ])
             ->filters([
                 //

@@ -9,6 +9,7 @@ use App\Models\Country;
 use App\Models\Employee;
 use App\Models\Department;
 use App\Models\EmployeeStatus;
+use App\Models\EmploymentStatus;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Artisan;
@@ -22,6 +23,9 @@ class DatabaseSeeder extends Seeder
     {
         // insert countries
         Country::insert(config('arrays.countries'));
+
+        // insert employment statuses
+        EmploymentStatus::insert(config('arrays.employment_statuses'));
 
         // insert base currencies
         //Currency::insert(config('arrays.currencies'));
@@ -50,7 +54,6 @@ class DatabaseSeeder extends Seeder
             ->hasEmploymentHistories(2)
             ->hasBankingInformation(1)
             ->hasEmergencyContacts(2)
-            ->hasPersonalInformation(1)
             ->hasIdentificationDocuments(1)
             ->hasCertificateLicenses(2)
             ->hasEducationalInformation(3)

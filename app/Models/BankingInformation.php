@@ -30,8 +30,17 @@ class BankingInformation extends Model
             Forms\Components\Section::make()
                 ->schema([
                     Forms\Components\Select::make('employee_id')
-                        ->relationship('employee', 'first_name')
+                        ->relationship(
+                            'employee',
+                            "full_name"
+                        )
+                        ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                        ->searchable(['first_name', 'last_name'])
+                        ->preload()
+                        ->createOptionForm(Employee::getForm())
+                        ->editOptionForm(Employee::getForm())
                         ->required(),
+
                     Forms\Components\TextInput::make('account_name')
                         ->required()
                         ->maxLength(255),

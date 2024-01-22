@@ -12,11 +12,6 @@ class EmploymentHistory extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'employee_id', 'job_title', 'department', 'hire_date',
-        'employment_type', 'employment_status', 'end_date', 'work_location',
-    ];
-
 
     protected $casts = [
         'employment_type' => EmploymentTypeEnum::class
@@ -31,9 +26,16 @@ class EmploymentHistory extends Model
     public static function getForm(): array
     {
         return [
-
             Forms\Components\Select::make('employee_id')
-                ->relationship('employee', 'first_name')
+                ->relationship(
+                    'employee',
+                    "full_name"
+                )
+                ->getOptionLabelFromRecordUsing(fn (Model $record) => "{$record->first_name} {$record->last_name}")
+                ->searchable(['first_name', 'last_name'])
+                ->preload()
+                ->createOptionForm(Employee::getForm())
+                ->editOptionForm(Employee::getForm())
                 ->required(),
 
             Forms\Components\Select::make('employment_type')
