@@ -2,9 +2,10 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PayGradeResource\Pages;
-use App\Filament\Resources\PayGradeResource\RelationManagers;
-use App\Models\PayGrade;
+use App\Enums\DayEnum;
+use App\Filament\Resources\WorkShiftResource\Pages;
+use App\Filament\Resources\WorkShiftResource\RelationManagers;
+use App\Models\WorkShift;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +14,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PayGradeResource extends Resource
+class WorkShiftResource extends Resource
 {
-    protected static ?string $model = PayGrade::class;
+    protected static ?string $model = WorkShift::class;
 
     protected static ?string $navigationGroup = 'Settings';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -24,11 +25,16 @@ class PayGradeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('currency')
-                    ->maxLength(255),
+                Forms\Components\TimePicker::make('start_time')
+                    ->required(),
+
+                Forms\Components\TimePicker::make('end_time')
+                    ->required(),
+
+                forms\Components\CheckboxList::make('days')
+                    ->options(DayEnum::class)
+                    ->columns(2)
+                    ->required(),
             ]);
     }
 
@@ -36,18 +42,15 @@ class PayGradeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('currency')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('start_time')
+                    ->time('h:m a'),
+
+                Tables\Columns\TextColumn::make('end_time')
+                    ->time('h:m a'),
+
+                Tables\Columns\TextColumn::make('days')
+                    ->badge()
+                    ->separator(',')
             ])
             ->filters([
                 //
@@ -66,7 +69,7 @@ class PayGradeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManagePayGrades::route('/'),
+            'index' => Pages\ManageWorkShifts::route('/'),
         ];
     }
 }

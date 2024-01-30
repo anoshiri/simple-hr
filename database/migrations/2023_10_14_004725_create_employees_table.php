@@ -32,6 +32,9 @@ return new class extends Migration
             $table->string('citizenship')->nullable();
 
             $table->foreignId('employment_status_id')->constrained('employment_statuses');
+            $table->foreignId('job_category_id')->constrained('job_categories');
+            $table->foreignId('job_title_id')->constrained('job_titles');
+            $table->foreignId('work_shift_id')->constrained('work_shifts');
 
             $table->unsignedTinyInteger('status'); // from the employee status table
             $table->timestamps();

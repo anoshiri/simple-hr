@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\PayGradeResource\Pages;
-use App\Filament\Resources\PayGradeResource\RelationManagers;
-use App\Models\PayGrade;
+use App\Filament\Resources\JobCategoryResource\Pages;
+use App\Filament\Resources\JobCategoryResource\RelationManagers;
+use App\Models\JobCategory;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class PayGradeResource extends Resource
+class JobCategoryResource extends Resource
 {
-    protected static ?string $model = PayGrade::class;
+    protected static ?string $model = JobCategory::class;
 
     protected static ?string $navigationGroup = 'Settings';
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
@@ -24,11 +24,8 @@ class PayGradeResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('title')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('currency')
-                    ->maxLength(255),
+                Tables\Columns\TextColumn::make('title')
+                    ->required(),
             ]);
     }
 
@@ -36,18 +33,7 @@ class PayGradeResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('currency')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('title'),
             ])
             ->filters([
                 //
@@ -66,7 +52,7 @@ class PayGradeResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ManagePayGrades::route('/'),
+            'index' => Pages\ManageJobCategories::route('/'),
         ];
     }
 }
