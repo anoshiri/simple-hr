@@ -7,6 +7,9 @@ use App\Enums\MaritalStatusEnum;
 use Illuminate\Support\Str;
 use App\Models\EmployeeStatus;
 use App\Models\EmploymentStatus;
+use App\Models\JobCategory;
+use App\Models\JobTitle;
+use App\Models\WorkShift;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -35,6 +38,9 @@ class EmployeeFactory extends Factory
             'status' => EmployeeStatus::inRandomOrder()->first()->id,
 
             'employment_status_id' => EmploymentStatus::inRandomOrder()->first()->id,
+            'job_title_id' => JobTitle::inRandomOrder()->first()->id,
+            'work_shift_id' => WorkShift::inRandomOrder()->first()->id,
+            'job_category_id' => JobCategory::inRandomOrder()->first()->id,
 
             'created_at' => now(),
             'updated_at' => now(),

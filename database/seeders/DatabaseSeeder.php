@@ -7,10 +7,14 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Models\Country;
 use App\Models\Employee;
+use App\Models\JobTitle;
 use App\Models\Department;
 use App\Models\EmployeeStatus;
-use App\Models\EmploymentStatus;
 use Illuminate\Database\Seeder;
+use App\Models\EmploymentStatus;
+use App\Models\JobCategory;
+use App\Models\PayGrade;
+use App\Models\WorkShift;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\Artisan;
 
@@ -24,11 +28,7 @@ class DatabaseSeeder extends Seeder
         // insert countries
         Country::insert(config('arrays.countries'));
 
-        // insert employment statuses
-        EmploymentStatus::insert(config('arrays.employment_statuses'));
 
-        // insert base currencies
-        //Currency::insert(config('arrays.currencies'));
 
 
         /////////////////////////////////
@@ -36,13 +36,21 @@ class DatabaseSeeder extends Seeder
         User::factory(3)->create();
 
 
-        /////////////////////////////////
-        // make departments
-        Department::factory(7)->create();
+        // insert employment statuses
+        EmploymentStatus::insert(config('arrays.employment_statuses'));
+
+        // insert base currencies
+        //Currency::insert(config('arrays.currencies'));
 
         /////////////////////////////////
-        // make status
+        // make other master data
+        Department::factory(7)->create();
         EmployeeStatus::factory(7)->create();
+        JobTitle::factory(25)->create();
+        JobCategory::factory(5)->create();
+        WorkShift::factory(1)->create();
+        PayGrade::factory(7)->create();
+
 
         /////////////////////////////////
         // make multiple employees and

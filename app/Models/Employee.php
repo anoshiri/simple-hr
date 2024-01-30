@@ -56,11 +56,15 @@ class Employee extends Model
     }
 
 
-
-
     public function employeeStatus() : BelongsTo
     {
         return $this->belongsTo(EmployeeStatus::class, 'status', 'id');
+    }
+
+
+    public function jobCategory() : BelongsTo
+    {
+        return $this->belongsTo(JobCategory::class);
     }
 
 
